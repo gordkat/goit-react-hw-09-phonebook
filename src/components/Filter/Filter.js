@@ -24,5 +24,4 @@ export default function Filter() {
 }
 Filter.propTypes = {
   value: ProtoTypes.string,
-  // onChange: ProtoTypes.func.isRequired,
 };

@@ -5,22 +5,18 @@ import { authOperations } from '../redux/auth';
 export default function LoginView() {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState({ email: '', password: '' });
 
-  const handleChangeEmail = event => {
-    setEmail(event.target.value);
-  };
-  const handleChangePassword = event => {
-    setPassword(event.target.value);
+  const handleChange = event => {
+    const typeOfInput = event.currentTarget.name;
+    const input = event.currentTarget.value;
+    setUser(prevState => ({ ...prevState, [typeOfInput]: input }));
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    const credentials = { email, password };
-    dispatch(authOperations.logIn(credentials));
-    setEmail('');
-    setPassword('');
+    dispatch(authOperations.logIn(user));
+    setUser({ email: '', password: '' });
   };
 
   return (
@@ -32,8 +28,8 @@ export default function LoginView() {
           <input
             type="email"
             name="email"
-            value={email}
-            onChange={handleChangeEmail}
+            value={user.email}
+            onChange={handleChange}
           ></input>
         </label>
         <label className="Form__lable">
@@ -41,8 +37,8 @@ export default function LoginView() {
           <input
             type="password"
             name="password"
-            value={password}
-            onChange={handleChangePassword}
+            value={user.password}
+            onChange={handleChange}
           ></input>
         </label>
         <button type="submit">Enter</button>

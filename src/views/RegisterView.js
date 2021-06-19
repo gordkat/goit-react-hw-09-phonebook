@@ -5,27 +5,18 @@ import { authOperations } from '../redux/auth';
 export default function RegisterView() {
   const dispatch = useDispatch();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState({ name: '', email: '', password: '' });
 
-  const handleChangeName = event => {
-    setName(event.target.value);
-  };
-  const handleChangeEmail = event => {
-    setEmail(event.target.value);
-  };
-  const handleChangePassword = event => {
-    setPassword(event.target.value);
+  const handleChange = event => {
+    const typeOfInput = event.currentTarget.name;
+    const input = event.currentTarget.value;
+    setUser(prevState => ({ ...prevState, [typeOfInput]: input }));
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    const credentials = { name, email, password };
-    dispatch(authOperations.register(credentials));
-    setName('');
-    setEmail('');
-    setPassword('');
+    dispatch(authOperations.register(user));
+    setUser({ name: '', email: '', password: '' });
   };
 
   return (
@@ -37,8 +28,8 @@ export default function RegisterView() {
           <input
             type="text"
             name="name"
-            value={name}
-            onChange={handleChangeName}
+            value={user.name}
+            onChange={handleChange}
           ></input>
         </label>
         <label className="Form__lable">
@@ -46,8 +37,8 @@ export default function RegisterView() {
           <input
             type="email"
             name="email"
-            value={email}
-            onChange={handleChangeEmail}
+            value={user.email}
+            onChange={handleChange}
           ></input>
         </label>
         <label className="Form__lable">
@@ -55,8 +46,8 @@ export default function RegisterView() {
           <input
             type="password"
             name="password"
-            value={password}
-            onChange={handleChangePassword}
+            value={user.password}
+            onChange={handleChange}
           ></input>
         </label>
         <button type="submit">Register</button>
