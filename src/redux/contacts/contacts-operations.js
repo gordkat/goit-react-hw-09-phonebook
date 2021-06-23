@@ -11,7 +11,17 @@ const fetchContacts = () => async dispatch => {
   }
 };
 
-const addContact = (name, number) => dispatch => {
+const addContact = (name, number) => (dispatch, getState) => {
+  const state = getState();
+  const contacts = state.contacts.items;
+  console.log(contacts);
+  const isExistContact = contacts.find(
+    contact => contact.name.toLowerCase() === name.toLowerCase(),
+  );
+  if (isExistContact) {
+    alert(`${name} is already in contacts`);
+    return;
+  }
   const contact = { name, number };
   dispatch(contactsActions.addContactRequest());
   axios
